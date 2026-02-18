@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대출 서류 체크리스트</title>
+  <style>
+    :root {
+      --bg: #f3f5f9;
+      --card: #ffffff;
+      --text: #1f2937;
+      --subtext: #6b7280;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
+      --line: #e5e7eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 24px auto;
+      padding: 0 16px 32px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.45rem;
+    }
+
+    .desc {
+      margin: 0;
+      color: var(--subtext);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+
+    .checklist-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+      font-size: 0.95rem;
+    }
+
+    .checklist-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .item-text {
+      overflow-wrap: anywhere;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .add-input {
+      flex: 1;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: var(--danger);
+      padding: 7px 10px;
+      font-size: 0.85rem;
+    }
+
+    .progress-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.95rem;
+      color: #374151;
+      font-weight: 700;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #60a5fa, #2563eb);
+      transition: width 0.25s ease;
+    }
+
+    .saved {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--success);
+      min-height: 1.1em;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        margin: 14px auto;
+        padding: 0 12px 20px;
+      }
+
+      .card {
+        padding: 14px;
+        border-radius: 12px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 { font-size: 1.2rem; }
+
+      button {
+        padding: 10px 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="card">
+      <h1>대출 서류 체크리스트</h1>
+      <p class="desc">개인용 진행 현황 기록 페이지 (자동 저장)</p>
+    </section>
+
+    <section class="card">
+      <div class="grid">
+        <div class="field">
+          <label for="customerName">고객명</label>
+          <input id="customerName" type="text" placeholder="예: 홍길동" />
+        </div>
+        <div class="field">
+          <label for="caseName">건명</label>
+          <input id="caseName" type="text" placeholder="예: 주택담보대출" />
+        </div>
+        <div class="field">
+          <label for="receivedDate">접수일</label>
+          <input id="receivedDate" type="date" />
+        </div>
+        <div class="field">
+          <label for="status">상태</label>
+          <select id="status">
+            <option value="준비중">준비중</option>
+            <option value="접수완료">접수완료</option>
+            <option value="보완요청">보완요청</option>
+            <option value="심사중">심사중</option>
+            <option value="승인">승인</option>
+            <option value="실행완료">실행완료</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="progress-wrap">
+        <div class="progress-head">
+          <span>진행률</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress-bar" aria-label="진행률">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0;font-size:1.05rem;">서류 항목</h2>
+      <div id="checklist"></div>
+
+      <div class="actions">
+        <input id="newItemInput" class="add-input" type="text" placeholder="기타 항목 추가 (예: 재직증명서)" />
+        <button id="addItemBtn" class="btn-primary" type="button">추가</button>
+      </div>
+      <div class="saved" id="savedMessage"></div>
+    </section>
+
+    <section class="card">
+      <div class="field">
+        <label for="memo">메모</label>
+        <textarea id="memo" placeholder="추가 메모를 입력하세요."></textarea>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'loanChecklistState_v1';
+    const defaultItems = ['등본', '초본', '인감증명', '소득서류', '담보서류'];
+
+    const els = {
+      customerName: document.getElementById('customerName'),
+      caseName: document.getElementById('caseName'),
+      receivedDate: document.getElementById('receivedDate'),
+      status: document.getElementById('status'),
+      memo: document.getElementById('memo'),
+      checklist: document.getElementById('checklist'),
+      newItemInput: document.getElementById('newItemInput'),
+      addItemBtn: document.getElementById('addItemBtn'),
+      progressFill: document.getElementById('progressFill'),
+      progressText: document.getElementById('progressText'),
+      savedMessage: document.getElementById('savedMessage')
+    };
+
+    let saveTimer = null;
+
+    function getInitialState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        return {
+          customerName: '',
+          caseName: '',
+          receivedDate: '',
+          status: '준비중',
+          memo: '',
+          items: defaultItems.map((text) => ({ text, checked: false, custom: false }))
+        };
+      }
+
+      try {
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed.items)) throw new Error('invalid items');
+
+        const safeItems = parsed.items
+          .filter((item) => item && typeof item.text === 'string' && item.text.trim())
+          .map((item) => ({
+            text: item.text.trim(),
+            checked: Boolean(item.checked),
+            custom: Boolean(item.custom)
+          }));
+
+        return {
+          customerName: parsed.customerName || '',
+          caseName: parsed.caseName || '',
+          receivedDate: parsed.receivedDate || '',
+          status: parsed.status || '준비중',
+          memo: parsed.memo || '',
+          items: safeItems.length ? safeItems : defaultItems.map((text) => ({ text, checked: false, custom: false }))
+        };
+      } catch {
+        return {
+          customerName: '',
+          caseName: '',
+          receivedDate: '',
+          status: '준비중',
+          memo: '',
+          items: defaultItems.map((text) => ({ text, checked: false, custom: false }))
+        };
+      }
+    }
+
+    let state = getInitialState();
+
+    function flashSaved() {
+      els.savedMessage.textContent = '자동 저장됨';
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        els.savedMessage.textContent = '';
+      }, 1200);
+    }
+
+    function persist() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      flashSaved();
+    }
+
+    function updateProgress() {
+      const total = state.items.length;
+      const done = state.items.filter((item) => item.checked).length;
+      const ratio = total === 0 ? 0 : Math.round((done / total) * 100);
+      els.progressFill.style.width = `${ratio}%`;
+      els.progressText.textContent = `${ratio}% (${done}/${total})`;
+    }
+
+    function removeItem(index) {
+      state.items.splice(index, 1);
+      renderChecklist();
+      persist();
+      updateProgress();
+    }
+
+    function renderChecklist() {
+      els.checklist.innerHTML = '';
+
+      state.items.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'checklist-item';
+
+        const label = document.createElement('label');
+        label.className = 'checklist-label';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = item.checked;
+        checkbox.addEventListener('change', () => {
+          state.items[index].checked = checkbox.checked;
+          persist();
+          updateProgress();
+        });
+
+        const span = document.createElement('span');
+        span.className = 'item-text';
+        span.textContent = item.text;
+
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        row.appendChild(label);
+
+        if (item.custom) {
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'btn-danger';
+          removeBtn.textContent = '삭제';
+          removeBtn.addEventListener('click', () => removeItem(index));
+          row.appendChild(removeBtn);
+        }
+
+        els.checklist.appendChild(row);
+      });
+    }
+
+    function bindTextInput(element, key) {
+      element.addEventListener('input', () => {
+        state[key] = element.value;
+        persist();
+      });
+    }
+
+    function addCustomItem() {
+      const value = els.newItemInput.value.trim();
+      if (!value) return;
+
+      state.items.push({ text: value, checked: false, custom: true });
+      els.newItemInput.value = '';
+      renderChecklist();
+      persist();
+      updateProgress();
+    }
+
+    function init() {
+      els.customerName.value = state.customerName;
+      els.caseName.value = state.caseName;
+      els.receivedDate.value = state.receivedDate;
+      els.status.value = state.status;
+      els.memo.value = state.memo;
+
+      bindTextInput(els.customerName, 'customerName');
+      bindTextInput(els.caseName, 'caseName');
+      bindTextInput(els.receivedDate, 'receivedDate');
+      bindTextInput(els.memo, 'memo');
+
+      els.status.addEventListener('change', () => {
+        state.status = els.status.value;
+        persist();
+      });
+
+      els.addItemBtn.addEventListener('click', addCustomItem);
+      els.newItemInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addCustomItem();
+        }
+      });
+
+      renderChecklist();
+      updateProgress();
+    }
+
+    init();
+  </script>
+</body>
+</html>
