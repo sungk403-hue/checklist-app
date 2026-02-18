@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대출 서류 체크리스트</title>
+  <style>
+    :root {
+      --bg: #f3f5f9;
+      --card: #ffffff;
+      --text: #1f2937;
+      --subtext: #6b7280;
+      --primary: #2563eb;
+      --line: #e5e7eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px 32px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+      margin-bottom: 14px;
+    }
+
+    .right-column .card {
+      position: sticky;
+      top: 12px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.45rem;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .desc {
+      margin: 0;
+      color: var(--subtext);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+
+    .checklist-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+      font-size: 0.95rem;
+    }
+
+    .checklist-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .item-text { overflow-wrap: anywhere; }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .add-input { flex: 1; }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-soft {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: var(--danger);
+      padding: 7px 10px;
+      font-size: 0.85rem;
+    }
+
+    .progress-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.95rem;
+      color: #374151;
+      font-weight: 700;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #60a5fa, #2563eb);
+      transition: width 0.25s ease;
+    }
+
+    .saved {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--success);
+      min-height: 1.1em;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .saved-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .saved-item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .saved-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .saved-meta {
+      font-size: 0.8rem;
+      color: var(--subtext);
+      margin-bottom: 8px;
+      display: grid;
+      gap: 2px;
+    }
+
+    .saved-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .empty {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--subtext);
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .right-column .card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        margin: 14px auto;
+        padding: 0 12px 20px;
+      }
+
+      .card {
+        padding: 14px;
+        border-radius: 12px;
+      }
+
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.2rem; }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      button { padding: 10px 11px; }
+      .section-head { flex-direction: column; align-items: stretch; }
+      .saved-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="layout">
+      <section class="left-column">
+        <section class="card">
+          <h1>대출 서류 체크리스트</h1>
+          <p class="desc">개인용 진행 현황 기록 페이지 (자동 저장 + 목록 저장)</p>
+        </section>
+
+        <section class="card">
+          <div class="grid">
+            <div class="field">
+              <label for="customerName">고객명</label>
+              <input id="customerName" type="text" placeholder="예: 홍길동" />
+            </div>
+            <div class="field">
+              <label for="caseName">건명</label>
+              <input id="caseName" type="text" placeholder="예: 주택담보대출" />
+            </div>
+            <div class="field">
+              <label for="receivedDate">접수일</label>
+              <input id="receivedDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="status">상태</label>
+              <select id="status">
+                <option value="준비중">준비중</option>
+                <option value="접수완료">접수완료</option>
+                <option value="보완요청">보완요청</option>
+                <option value="심사중">심사중</option>
+                <option value="승인">승인</option>
+                <option value="실행완료">실행완료</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="progress-wrap">
+            <div class="progress-head">
+              <span>진행률</span>
+              <span id="progressText">0%</span>
+            </div>
+            <div class="progress-bar" aria-label="진행률">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <h2>서류 항목</h2>
+            <button id="saveSnapshotBtn" class="btn-soft" type="button">현재 리스트 저장</button>
+          </div>
+
+          <div id="checklist"></div>
+
+          <div class="actions">
+            <input id="newItemInput" class="add-input" type="text" placeholder="기타 항목 추가 (예: 재직증명서)" />
+            <button id="addItemBtn" class="btn-primary" type="button">추가</button>
+          </div>
+          <div class="saved" id="savedMessage"></div>
+        </section>
+
+        <section class="card">
+          <div class="field">
+            <label for="memo">메모</label>
+            <textarea id="memo" placeholder="추가 메모를 입력하세요."></textarea>
+          </div>
+        </section>
+      </section>
+
+      <aside class="right-column">
+        <section class="card">
+          <div class="section-head">
+            <h2>저장한 리스트</h2>
+          </div>
+          <div id="savedEntries" class="saved-list"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'loanChecklistState_v1';
+    const ENTRIES_KEY = 'loanChecklistEntries_v1';
+    const defaultItems = ['등본', '초본', '인감증명', '소득서류', '담보서류'];
+
+    const els = {
+      customerName: document.getElementById('customerName'),
+      caseName: document.getElementById('caseName'),
+      receivedDate: document.getElementById('receivedDate'),
+      status: document.getElementById('status'),
+      memo: document.getElementById('memo'),
+      checklist: document.getElementById('checklist'),
+      newItemInput: document.getElementById('newItemInput'),
+      addItemBtn: document.getElementById('addItemBtn'),
+      saveSnapshotBtn: document.getElementById('saveSnapshotBtn'),
+      progressFill: document.getElementById('progressFill'),
+      progressText: document.getElementById('progressText'),
+      savedMessage: document.getElementById('savedMessage'),
+      savedEntries: document.getElementById('savedEntries')
+    };
+
+    let saveTimer = null;
+    let entries = getSavedEntries();
+
+    function getDefaultState() {
+      return {
+        customerName: '',
+        caseName: '',
+        receivedDate: '',
+        status: '준비중',
+        memo: '',
+        items: defaultItems.map((text) => ({ text, checked: false, custom: false }))
+      };
+    }
+
+    function getInitialState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return getDefaultState();
+
+      try {
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed.items)) throw new Error('invalid items');
+
+        const safeItems = parsed.items
+          .filter((item) => item && typeof item.text === 'string' && item.text.trim())
+          .map((item) => ({
+            text: item.text.trim(),
+            checked: Boolean(item.checked),
+            custom: Boolean(item.custom)
+          }));
+
+        return {
+          customerName: parsed.customerName || '',
+          caseName: parsed.caseName || '',
+          receivedDate: parsed.receivedDate || '',
+          status: parsed.status || '준비중',
+          memo: parsed.memo || '',
+          items: safeItems.length ? safeItems : getDefaultState().items
+        };
+      } catch {
+        return getDefaultState();
+      }
+    }
+
+    function getSavedEntries() {
+      const raw = localStorage.getItem(ENTRIES_KEY);
+      if (!raw) return [];
+
+      try {
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+
+        return parsed.filter((entry) =>
+          entry &&
+          typeof entry.id === 'string' &&
+          typeof entry.savedAt === 'string' &&
+          entry.state &&
+          Array.isArray(entry.state.items)
+        );
+      } catch {
+        return [];
+      }
+    }
+
+    function persistEntries() {
+      localStorage.setItem(ENTRIES_KEY, JSON.stringify(entries));
+    }
+
+    let state = getInitialState();
+
+    function flashSaved(message = '자동 저장됨') {
+      els.savedMessage.textContent = message;
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        els.savedMessage.textContent = '';
+      }, 1300);
+    }
+
+    function persist() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      flashSaved();
+    }
+
+    function getProgressInfo(targetState = state) {
+      const total = targetState.items.length;
+      const done = targetState.items.filter((item) => item.checked).length;
+      const ratio = total === 0 ? 0 : Math.round((done / total) * 100);
+      return { total, done, ratio };
+    }
+
+    function updateProgress() {
+      const { total, done, ratio } = getProgressInfo();
+      els.progressFill.style.width = `${ratio}%`;
+      els.progressText.textContent = `${ratio}% (${done}/${total})`;
+    }
+
+    function removeItem(index) {
+      state.items.splice(index, 1);
+      renderChecklist();
+      persist();
+      updateProgress();
+    }
+
+    function renderChecklist() {
+      els.checklist.innerHTML = '';
+
+      state.items.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'checklist-item';
+
+        const label = document.createElement('label');
+        label.className = 'checklist-label';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = item.checked;
+        checkbox.addEventListener('change', () => {
+          state.items[index].checked = checkbox.checked;
+          persist();
+          updateProgress();
+        });
+
+        const span = document.createElement('span');
+        span.className = 'item-text';
+        span.textContent = item.text;
+
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        row.appendChild(label);
+
+        if (item.custom) {
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'btn-danger';
+          removeBtn.textContent = '삭제';
+          removeBtn.addEventListener('click', () => removeItem(index));
+          row.appendChild(removeBtn);
+        }
+
+        els.checklist.appendChild(row);
+      });
+    }
+
+    function bindTextInput(element, key) {
+      element.addEventListener('input', () => {
+        state[key] = element.value;
+        persist();
+      });
+    }
+
+    function addCustomItem() {
+      const value = els.newItemInput.value.trim();
+      if (!value) return;
+
+      state.items.push({ text: value, checked: false, custom: true });
+      els.newItemInput.value = '';
+      renderChecklist();
+      persist();
+      updateProgress();
+    }
+
+    function makeSnapshotTitle(targetState) {
+      const customer = targetState.customerName.trim();
+      const caseName = targetState.caseName.trim();
+
+      if (customer && caseName) return `${customer} - ${caseName}`;
+      if (customer) return `${customer} 건`;
+      if (caseName) return caseName;
+      return `리스트 ${new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`;
+    }
+
+    function saveSnapshot() {
+      const snapshot = JSON.parse(JSON.stringify(state));
+      const { ratio } = getProgressInfo(snapshot);
+
+      entries.unshift({
+        id: `${Date.now()}_${Math.random().toString(16).slice(2, 8)}`,
+        savedAt: new Date().toISOString(),
+        progress: ratio,
+        title: makeSnapshotTitle(snapshot),
+        state: snapshot
+      });
+
+      persistEntries();
+      renderSavedEntries();
+      flashSaved('목록에 저장됨');
+    }
+
+    function applySnapshot(entryId) {
+      const found = entries.find((entry) => entry.id === entryId);
+      if (!found) return;
+
+      state = JSON.parse(JSON.stringify(found.state));
+      syncInputsFromState();
+      renderChecklist();
+      updateProgress();
+      persist();
+      flashSaved('저장 목록을 불러왔습니다');
+    }
+
+    function deleteSnapshot(entryId) {
+      entries = entries.filter((entry) => entry.id !== entryId);
+      persistEntries();
+      renderSavedEntries();
+      flashSaved('저장 목록에서 삭제됨');
+    }
+
+    function formatKoreanDate(isoString) {
+      const date = new Date(isoString);
+      if (Number.isNaN(date.getTime())) return '-';
+      return date.toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function renderSavedEntries() {
+      els.savedEntries.innerHTML = '';
+
+      if (entries.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty';
+        empty.textContent = '저장된 리스트가 없습니다. 좌측에서 현재 리스트를 저장해보세요.';
+        els.savedEntries.appendChild(empty);
+        return;
+      }
+
+      entries.forEach((entry) => {
+        const item = document.createElement('article');
+        item.className = 'saved-item';
+
+        const title = document.createElement('div');
+        title.className = 'saved-title';
+        title.textContent = entry.title;
+
+        const meta = document.createElement('div');
+        meta.className = 'saved-meta';
+
+        const caseText = document.createElement('span');
+        caseText.textContent = `상태: ${entry.state.status || '준비중'} · 진행률: ${entry.progress ?? 0}%`;
+
+        const dateText = document.createElement('span');
+        dateText.textContent = `저장일: ${formatKoreanDate(entry.savedAt)}`;
+
+        meta.appendChild(caseText);
+        meta.appendChild(dateText);
+
+        const actions = document.createElement('div');
+        actions.className = 'saved-actions';
+
+        const loadBtn = document.createElement('button');
+        loadBtn.type = 'button';
+        loadBtn.className = 'btn-soft';
+        loadBtn.textContent = '불러오기';
+        loadBtn.addEventListener('click', () => applySnapshot(entry.id));
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
+        deleteBtn.className = 'btn-danger';
+        deleteBtn.textContent = '삭제';
+        deleteBtn.addEventListener('click', () => deleteSnapshot(entry.id));
+
+        actions.appendChild(loadBtn);
+        actions.appendChild(deleteBtn);
+
+        item.appendChild(title);
+        item.appendChild(meta);
+        item.appendChild(actions);
+
+        els.savedEntries.appendChild(item);
+      });
+    }
+
+    function syncInputsFromState() {
+      els.customerName.value = state.customerName;
+      els.caseName.value = state.caseName;
+      els.receivedDate.value = state.receivedDate;
+      els.status.value = state.status;
+      els.memo.value = state.memo;
+    }
+
+    function init() {
+      syncInputsFromState();
+
+      bindTextInput(els.customerName, 'customerName');
+      bindTextInput(els.caseName, 'caseName');
+      bindTextInput(els.receivedDate, 'receivedDate');
+      bindTextInput(els.memo, 'memo');
+
+      els.status.addEventListener('change', () => {
+        state.status = els.status.value;
+        persist();
+      });
+
+      els.addItemBtn.addEventListener('click', addCustomItem);
+      els.saveSnapshotBtn.addEventListener('click', saveSnapshot);
+      els.newItemInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addCustomItem();
+        }
+      });
+
+      renderChecklist();
+      renderSavedEntries();
+      updateProgress();
+    }
+
+    init();
+  </script>
+</body>
+</html>
